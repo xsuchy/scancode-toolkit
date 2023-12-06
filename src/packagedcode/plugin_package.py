@@ -341,7 +341,7 @@ def get_package_and_deps(codebase, package_adder=add_to_package, strip_root=Fals
     packages = []
     dependencies = []
 
-    seen_resource_paths = set()
+    seen_resource_paths = {}
 
     has_single_resource = codebase.has_single_resource
     # track resource ids that have been already processed
@@ -350,7 +350,16 @@ def get_package_and_deps(codebase, package_adder=add_to_package, strip_root=Fals
             continue
 
         if resource.path in seen_resource_paths:
-            continue
+            seen_resource_types = seen_resource_paths[resource.path]
+            other_package_type = False
+            for package_data in resource.package_data:
+                package_data = PackageData.from_dict(mapping=package_data)
+                if package_data.type not in seen_resource_types:
+                    other_package_type = True
+                    break
+
+            if not other_package_type:
+                continue
 
         if TRACE:
             logger_debug('get_package_and_deps: location:', resource.location)
@@ -358,6 +367,7 @@ def get_package_and_deps(codebase, package_adder=add_to_package, strip_root=Fals
         for package_data in resource.package_data:
             try:
                 package_data = PackageData.from_dict(mapping=package_data)
+                package_type = package_data.type
 
                 if TRACE:
                     logger_debug('  get_package_and_deps: package_data.purl:', package_data.purl)
@@ -393,7 +403,9 @@ def get_package_and_deps(codebase, package_adder=add_to_package, strip_root=Fals
                         dependencies.append(item)
 
                     elif isinstance(item, Resource):
-                        seen_resource_paths.add(item.path)
+                        if not item.path in seen_resource_paths:
+                            seen_resource_paths[item.path] = set()
+                        seen_resource_paths[item.path].add(package_type)
 
                         if TRACE:
                             logger_debug('    get_package_and_deps: Resource:', item.path)
