@@ -1,16 +1,11 @@
 ---
-key: freetos-mit
+key: freertos-mit
 short_name: FreeRTOS MIT
 name: FreeRTOS MIT
 category: Permissive
 owner: FreeRTOS
 homepage_url: https://github.com/FreeRTOS/FreeRTOS-Kernel/blob/V10.0.0/FreeRTOS/Source/list.c
-spdx_license_key: LicenseRef-scancode-freetos-mit
-text_urls:
-    - https://github.com/FreeRTOS/FreeRTOS-Kernel/blob/V10.0.0/FreeRTOS/Source/list.c
-other_urls:
-    - http://www.FreeRTOS.org
-    - http://aws.amazon.com/freertos
+spdx_license_key: LicenseRef-scancode-freertos-mit
 ---
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
