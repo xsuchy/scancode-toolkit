@@ -97,11 +97,15 @@ def get_available_package_parsers(docs=False):
             else:
                 data_packages['package_type'] = cls.default_package_type
             data_packages['datasource_id'] = f"``{cls.datasource_id}``"
+            supported_oses = ', '.join(f"``{os_type}``" for os_type in cls.supported_oses)
+            
         else:
             path_patterns = ', '.join(repr(p) for p in cls.path_patterns)
+            supported_oses = ', '.join(repr(os_type) for os_type in cls.supported_oses)
             data_packages['package_type'] = cls.default_package_type
             data_packages['datasource_id'] = cls.datasource_id
 
+        data_packages['supported_oses'] = supported_oses
         data_packages['documentation_url'] = cls.documentation_url
         data_packages['default_primary_language'] = cls.default_primary_language
         data_packages['description'] = cls.description
