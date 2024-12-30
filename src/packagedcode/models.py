@@ -1045,7 +1045,7 @@ class DatafileHandler:
 
     # tuple of operating systems where getting package data using this DatafileHandler is supported.
     # If None or empty, all platforms are supported, possible values are win, mac, linux, freebsd
-    supported_oses = ('linux', 'win', 'mac')
+    supported_oses = None
 
     # Sequence of known fnmatch-style case-insensitive glob patterns (e.g., Unix
     # shell style patterns) that apply on the whole POSIX path for package

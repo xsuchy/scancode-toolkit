@@ -14,7 +14,7 @@ parsers in scancode-toolkit during documentation builds.
 
 
 .. list-table:: Supported Package Parsers
-   :widths: 10 10 20 10 10 2
+   :widths: 10 10 20 10 10 10 2
    :header-rows: 1
 
    * - Description

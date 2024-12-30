@@ -14,7 +14,7 @@ parsers in scancode-toolkit during documentation builds.
 
 
 .. list-table:: Supported Package Parsers
-   :widths: 10 10 20 10 10 2
+   :widths: 10 10 20 10 10 10 2
    :header-rows: 1
 
    * - Description
@@ -140,6 +140,13 @@ parsers in scancode-toolkit during documentation builds.
      - ``cargo_toml``
      - Rust
      - https://doc.rust-lang.org/cargo/reference/manifest.html
+   * - Rust binary
+     - None
+     - ``cargo``
+     - ``linux``, ``win``, ``mac``
+     - ``rust_binary``
+     - Rust
+     - https://github.com/rust-secure-code/cargo-auditable/blob/master/PARSING.md
    * - Chef cookbook metadata.json
      - ``*/metadata.json``
      - ``chef``
@@ -1008,4 +1015,3 @@ parsers in scancode-toolkit during documentation builds.
      - ``windows_executable``
      - None
      - https://en.wikipedia.org/wiki/Portable_Executable
-   
