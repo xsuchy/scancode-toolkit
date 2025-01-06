@@ -73,8 +73,8 @@ APPLICATION_PACKAGE_DATAFILE_HANDLERS = [
     cocoapods.PodfileLockHandler,
     cocoapods.PodfileHandler,
 
-    conda.CondaYamlHandler,
     conda.CondaMetaYamlHandler,
+    conda.CondaYamlHandler,
 
     conan.ConanFileHandler,
     conan.ConanDataHandler,
