@@ -251,6 +251,12 @@ try:
 except ImportError:
     pass
 
+try:
+    from rust_inspector.packages import get_rust_binary_handler
+    APPLICATION_PACKAGE_DATAFILE_HANDLERS.append(get_rust_binary_handler())
+except ImportError:
+    pass
+
 ALL_DATAFILE_HANDLERS = (
     APPLICATION_PACKAGE_DATAFILE_HANDLERS + [
         p for p in SYSTEM_PACKAGE_DATAFILE_HANDLERS
