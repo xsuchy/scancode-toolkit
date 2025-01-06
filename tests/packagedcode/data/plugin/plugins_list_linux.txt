@@ -202,6 +202,13 @@ Package type:  conda
   description:       Conda meta.yml manifest
   path_patterns:    '*/meta.yaml'
 --------------------------------------------
+Package type:  conda
+  datasource_id:     conda_yaml
+  documentation URL: https://docs.conda.io/
+  primary language:  Python
+  description:       Conda yaml manifest
+  path_patterns:    '*conda*.yaml', '*env*.yaml', '*environment*.yaml'
+--------------------------------------------
 Package type:  cpan
   datasource_id:     cpan_dist_ini
   documentation URL: https://metacpan.org/pod/Dist::Zilla::Tutorial
@@ -684,13 +691,6 @@ Package type:  pubspec
   primary language:  dart
   description:       Dart pubspec manifest
   path_patterns:    '*pubspec.yaml'
---------------------------------------------
-Package type:  pypi
-  datasource_id:     conda_yaml
-  documentation URL: https://docs.conda.io/
-  primary language:  Python
-  description:       Conda yaml manifest
-  path_patterns:    '*conda.yaml', '*conda.yml'
 --------------------------------------------
 Package type:  pypi
   datasource_id:     pip_requirements

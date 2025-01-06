@@ -1100,7 +1100,16 @@ class DatafileHandler:
         """
         if filetype.is_file(location) or _bare_filename:
             loc = as_posixpath(location)
-            if any(fnmatchcase(loc, pat) for pat in cls.path_patterns):
+
+            # Some extension strings are used interchangebly
+            extension_aliases = {"yaml": "yml"}
+            path_patterns = list(cls.path_patterns)
+            for pattern in cls.path_patterns:
+                for extension, extension_alias in extension_aliases.items():
+                    new_pattern = pattern.replace(extension, extension_alias)
+                    path_patterns.append(new_pattern)
+
+            if any(fnmatchcase(loc, pat) for pat in path_patterns):
                 filetypes = filetypes or cls.filetypes
                 if not filetypes:
                     return True
