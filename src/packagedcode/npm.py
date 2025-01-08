@@ -444,7 +444,8 @@ class BaseNpmHandler(models.DatafileHandler):
             # Case 3: This is a complex glob pattern, we are doing a full codebase walk
             # and glob matching each resource
             else:
-                for resource in workspace_root_path:
+                workspace_root = codebase.get_resource(path=workspace_root_path)
+                for resource in workspace_root.walk(codebase):
                     if NpmPackageJsonHandler.is_datafile(resource.location) and fnmatch.fnmatch(
                         name=resource.location, pat=workspace_path,
                     ):
