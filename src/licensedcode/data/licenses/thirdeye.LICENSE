@@ -3,7 +3,7 @@ key: thirdeye
 short_name: ThirdEye License
 name: ThirdEye License
 category: Permissive
-owner: Third Eye Software, Inc.
+owner: Third Eye Software
 spdx_license_key: ThirdEye
 other_urls:
     - https://sourceware.org/cgit/binutils-gdb/tree/include/coff/symconst.h#n11

@@ -3,7 +3,7 @@ key: generic-xts
 short_name: Generic XTS License
 name: Generic XTS License
 category: Permissive
-owner: Unspecified
+owner: zulucrypt Project
 spdx_license_key: generic-xts
 other_urls:
     - https://github.com/mhogomchungu/zuluCrypt/blob/master/external_libraries/tcplay/generic_xts.c

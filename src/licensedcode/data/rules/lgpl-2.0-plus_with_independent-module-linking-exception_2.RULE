@@ -1,6 +1,9 @@
 ---
-license_expression: independent-module-linking-exception
-is_license_text: yes
+license_expression: lgpl-2.0-plus WITH independent-module-linking-exception
+is_license_notice: yes
+minimum_coverage: 90
+referenced_filenames:
+    - COPYING
 ---
 
 This is the file COPYING.FPC, it applies to the Free Pascal Run-Time Library 
@@ -8,7 +11,7 @@ This is the file COPYING.FPC, it applies to the Free Pascal Run-Time Library
 Development Team.
 
 The source code of the Free Pascal Runtime Libraries and packages are 
-distributed under the Library GNU General Public License 
+distributed under the {{Library GNU General Public License}}
 (see the file COPYING) with the following modification:
 
 As a special exception, the copyright holders of this library give you

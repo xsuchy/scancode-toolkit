@@ -3,7 +3,7 @@ key: cgal-linking-exception
 short_name: CGAL Linking Exception
 name: CGAL Linking Exception
 category: Copyleft Limited
-owner: cgal.org
+owner: CGAL Project
 is_exception: yes
 spdx_license_key: CGAL-linking-exception
 other_urls:
