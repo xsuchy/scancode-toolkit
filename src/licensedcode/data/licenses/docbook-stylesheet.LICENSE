@@ -3,15 +3,11 @@ key: docbook-stylesheet
 short_name: DocBook Stylesheet License
 name: DocBook Stylesheet License
 spdx_license_key: DocBook-Stylesheet
+category: Permissive
+owner: OASIS
 other_urls:
     - http://www.docbook.org/xml/5.0/docbook-5.0.zip
 ---
-
-Copyright 2005 Norman Walsh, Sun Microsystems,
-Inc., and the Organization for the Advancement
-of Structured Information Standards (OASIS).
-
-Release: $Id: db4-upgrade.xsl 8905 2010-09-12 11:47:07Z bobstayton $
 
 Permission to use, copy, modify and distribute this stylesheet
 and its accompanying documentation for any purpose and

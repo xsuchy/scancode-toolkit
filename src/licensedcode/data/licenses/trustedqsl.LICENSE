@@ -2,16 +2,16 @@
 key: trustedqsl
 short_name: TrustedQSL License
 name: TrustedQSL License
+category: Permissive
+owner: TrustedQSL Developers
 spdx_license_key: TrustedQSL
 other_urls:
     - https://sourceforge.net/p/trustedqsl/tqsl/ci/master/tree/LICENSE.txt
+ignorable_urls:
+    - http://www.arrl.org/
+ignorable_emails:
+    - logbook@arrl.org
 ---
-
-Copyright (C) 2001-2015 American Radio Relay League, Inc. All rights
-reserved.
-
-Portions (C) 2003-2023 The TrustedQSL Developers. Please see the AUTHORS.txt
-file for contributors.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions

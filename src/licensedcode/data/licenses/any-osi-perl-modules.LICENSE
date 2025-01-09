@@ -2,11 +2,15 @@
 key: any-osi-perl-modules
 short_name: Any OSI Perl Modules
 name: Any OSI License - Perl Modules
+category: Unstated License
+owner: Unspecified
 spdx_license_key: any-OSI-perl-modules
 other_urls:
     - https://metacpan.org/release/JUERD/Exporter-Tidy-0.09/view/Tidy.pm#LICENSE
     - https://metacpan.org/pod/Qmail::Deliverable::Client#LICENSE
     - https://metacpan.org/pod/Net::MQTT::Simple#LICENSE
+ignorable_urls:
+    - http://www.opensource.org/licenses/alphabetical
 ---
 
 This software may be redistributed under the terms of the GPL, LGPL,

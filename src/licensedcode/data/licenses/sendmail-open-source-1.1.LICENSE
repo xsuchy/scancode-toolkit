@@ -2,9 +2,15 @@
 key: sendmail-open-source-1.1
 short_name: Sendmail Open Source License v1.1
 name: Sendmail Open Source License v1.1
+category: Permissive
+owner: Sendmail
 spdx_license_key: Sendmail-Open-Source-1.1
 other_urls:
     - https://github.com/trusteddomainproject/OpenDMARC/blob/master/LICENSE.Sendmail
+ignorable_copyrights:
+    - Copyright (c) 1998-2009 Sendmail, Inc.
+ignorable_holders:
+    - Sendmail, Inc.
 ---
 
 SENDMAIL OPEN SOURCE LICENSE
