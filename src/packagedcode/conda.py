@@ -63,36 +63,16 @@ class CondaBaseHandler(models.DatafileHandler):
                 )
 
             # corresponding metadata JSON does not exist, so handle this meta.yaml
-            elif package_data.purl:
-                package = models.Package.from_package_data(
+            else:
+                yield from cls.assemble_from_meta_yaml_only(
                     package_data=package_data,
-                    datafile_path=resource.path,
-                )
-                package.populate_license_fields()
-                yield package
-
-                dependent_packages = package_data.dependencies
-                if dependent_packages:
-                    yield from models.Dependency.from_dependent_packages(
-                        dependent_packages=dependent_packages,
-                        datafile_path=resource.path,
-                        datasource_id=package_data.datasource_id,
-                        package_uid=package.package_uid,
-                    )
-
-                CondaMetaYamlHandler.assign_package_to_resources(
-                    package=package,
                     resource=resource,
                     codebase=codebase,
                     package_adder=package_adder,
                 )
-                yield resource
 
             return
 
-        # For a conda metadata JSON, try to find the corresponding meta.yaml and
-        # assemble a single package out of these if it exists 
-        conda_meta_yaml = cls.find_conda_meta_yaml_resource(resource, codebase)
         if not package_data.purl:
             yield resource
             return
@@ -101,27 +81,12 @@ class CondaBaseHandler(models.DatafileHandler):
             package_data=package_data,
             datafile_path=resource.path,
         )
-        if conda_meta_yaml:
-            conda_meta_yaml_package_data, = conda_meta_yaml.package_data
-            package.update(
-                package_data=conda_meta_yaml_package_data,
-                datafile_path=conda_meta_yaml.path,
-            )
-            cls.assign_package_to_resources(
-                package=package,
-                resource=conda_meta_yaml,
-                codebase=codebase,
-                package_adder=package_adder,
-            )
-            meta_yaml_package_data = models.PackageData.from_dict(conda_meta_yaml_package_data)
-            if meta_yaml_package_data.dependencies:
-                yield from models.Dependency.from_dependent_packages(
-                    dependent_packages=meta_yaml_package_data.dependencies,
-                    datafile_path=conda_meta_yaml.path,
-                    datasource_id=meta_yaml_package_data.datasource_id,
-                    package_uid=package.package_uid,
-                )
-            yield conda_meta_yaml
+        yield from cls.get_and_assmeble_from_meta_yaml(
+            package=package,
+            resource=resource,
+            codebase=codebase,
+            package_adder=package_adder,
+        )
 
         package.populate_license_fields()
         yield package
@@ -136,8 +101,27 @@ class CondaBaseHandler(models.DatafileHandler):
         # we yield this as we do not want this further processed
         yield resource
 
-        # Get the file paths present in the metadata JSON and assign them to
-        # the package created from it
+        cls.assign_packages_to_resources_from_metadata_json(
+            package=package,
+            package_data=package_data,
+            resource=resource,
+            codebase=codebase,
+            package_adder=package_adder,
+        )
+
+    @classmethod
+    def assign_packages_to_resources_from_metadata_json(
+        cls,
+        package,
+        package_data,
+        resource,
+        codebase,
+        package_adder=models.add_to_package,
+    ):
+        """
+        Get the file paths present in the `package_data` of a metadata JSON `resource`
+        and assign them to the `package` created from the manifest.
+        """
         extracted_package_dir = package_data.extra_data.get('extracted_package_dir')
         files = package_data.extra_data.get('files')
 
@@ -175,7 +159,7 @@ class CondaBaseHandler(models.DatafileHandler):
                 codebase=codebase,
                 package_adder=package_adder,
             )
-        
+
         for file_path in files:
             full_file_path = f"{conda_root_dir.path}/{file_path}"
             file_resource = codebase.get_resource(path=full_file_path)
@@ -186,6 +170,71 @@ class CondaBaseHandler(models.DatafileHandler):
                     codebase=codebase,
                     package_adder=package_adder,
                 )
+
+    @classmethod
+    def get_and_assmeble_from_meta_yaml(cls, package, resource, codebase, package_adder=models.add_to_package):
+        """
+        For a conda metadata JSON `resource`, try to find the corresponding meta.yaml and
+        update the `package` from it. Also yield dependencies present in the meta.yaml,
+        and the `resource` to complete assembling from this manifest.
+        """
+        conda_meta_yaml = cls.find_conda_meta_yaml_resource(resource, codebase)
+
+        if conda_meta_yaml:
+            conda_meta_yaml_package_data, = conda_meta_yaml.package_data
+            package.update(
+                package_data=conda_meta_yaml_package_data,
+                datafile_path=conda_meta_yaml.path,
+            )
+            cls.assign_package_to_resources(
+                package=package,
+                resource=conda_meta_yaml,
+                codebase=codebase,
+                package_adder=package_adder,
+            )
+            meta_yaml_package_data = models.PackageData.from_dict(conda_meta_yaml_package_data)
+            if meta_yaml_package_data.dependencies:
+                yield from models.Dependency.from_dependent_packages(
+                    dependent_packages=meta_yaml_package_data.dependencies,
+                    datafile_path=conda_meta_yaml.path,
+                    datasource_id=meta_yaml_package_data.datasource_id,
+                    package_uid=package.package_uid,
+                )
+
+            yield conda_meta_yaml
+
+    @classmethod
+    def assemble_from_meta_yaml_only(cls, package_data, resource, codebase, package_adder=models.add_to_package):
+        """
+        Assemble and yeild package, dependencies and the meta YAML `resource` from
+        it's `package_data`, and also assign resources to the package.
+        """
+        if not package_data.purl:
+            return
+
+        package = models.Package.from_package_data(
+            package_data=package_data,
+            datafile_path=resource.path,
+        )
+        package.populate_license_fields()
+        yield package
+
+        dependent_packages = package_data.dependencies
+        if dependent_packages:
+            yield from models.Dependency.from_dependent_packages(
+                dependent_packages=dependent_packages,
+                datafile_path=resource.path,
+                datasource_id=package_data.datasource_id,
+                package_uid=package.package_uid,
+            )
+
+        CondaMetaYamlHandler.assign_package_to_resources(
+            package=package,
+            resource=resource,
+            codebase=codebase,
+            package_adder=package_adder,
+        )
+        yield resource
 
     @classmethod
     def check_valid_packages_dir_name(cls, package_dir_resource, resource, codebase):
