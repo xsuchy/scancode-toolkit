@@ -71,6 +71,15 @@ class CondaBaseHandler(models.DatafileHandler):
                 package.populate_license_fields()
                 yield package
 
+                dependent_packages = package_data.dependencies
+                if dependent_packages:
+                    yield from models.Dependency.from_dependent_packages(
+                        dependent_packages=dependent_packages,
+                        datafile_path=resource.path,
+                        datasource_id=package_data.datasource_id,
+                        package_uid=package.package_uid,
+                    )
+
                 CondaMetaYamlHandler.assign_package_to_resources(
                     package=package,
                     resource=resource,
@@ -104,6 +113,14 @@ class CondaBaseHandler(models.DatafileHandler):
                 codebase=codebase,
                 package_adder=package_adder,
             )
+            meta_yaml_package_data = models.PackageData.from_dict(conda_meta_yaml_package_data)
+            if meta_yaml_package_data.dependencies:
+                yield from models.Dependency.from_dependent_packages(
+                    dependent_packages=meta_yaml_package_data.dependencies,
+                    datafile_path=conda_meta_yaml.path,
+                    datasource_id=meta_yaml_package_data.datasource_id,
+                    package_uid=package.package_uid,
+                )
             yield conda_meta_yaml
 
         package.populate_license_fields()
