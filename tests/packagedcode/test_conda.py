@@ -115,6 +115,12 @@ class TestConda(PackageTester):
         expected_loc = self.get_test_loc('conda/conda-yaml/ringer/environment.yaml-expected.json')
         self.check_packages_data(package, expected_loc, regen=REGEN_TEST_FIXTURES)
 
+    def test_parse_conda_yaml_does_not_fail_on_test_files_with_port(self):
+        test_file = self.get_test_loc('conda/conda-yaml/test/environment_host_port.yml')
+        package = conda.CondaYamlHandler.parse(test_file)
+        expected_loc = self.get_test_loc('conda/conda-yaml/test/environment_host_port.yml-expected.json')
+        self.check_packages_data(package, expected_loc, regen=REGEN_TEST_FIXTURES)
+
     def test_conda_get_conda_meta_json(self):
         meta_yaml_path = 'conda/pkgs/requests-2.32.3-py312h06a4308_1/info/recipe/meta.yaml'
         conda_meta_json_path = 'conda/conda-meta/requests-2.32.3-py312h06a4308_1.json'

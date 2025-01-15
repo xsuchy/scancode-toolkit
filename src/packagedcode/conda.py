@@ -378,6 +378,7 @@ class CondaYamlHandler(BaseDependencyFileHandler):
                 primary_language=cls.default_primary_language,
                 dependencies=dependencies,
                 extra_data=extra_data,
+                is_private=True,
             )
             yield models.PackageData.from_data(package_data, package_only)
 
@@ -536,6 +537,8 @@ def get_conda_yaml_dependencies(conda_data):
 
             if "::" in dep:
                 namespace, dep = dep.split("::")
+                if "/" in namespace or ":" in namespace:
+                    namespace = None
 
             req = parse_requirement_line(dep)
             if req:
