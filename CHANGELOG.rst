@@ -38,6 +38,9 @@ v33.0.0 (next next, roadmap)
 - Update Dockerfile and test container build.
   See https://github.com/aboutcode-org/scancode-toolkit/issues/3955
 
+- Progress bar now shows length. You can estimate the duration now.
+  See https://github.com/aboutcode-org/scancode-toolkit/issues/3342
+
 v32.3.1 - 2024-01-06
 --------------------
 

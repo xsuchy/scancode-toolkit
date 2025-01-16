@@ -1245,6 +1245,8 @@ def scan_codebase(
 
     # NOTE: we never scan directories
     resources = ((r.location, r.path) for r in codebase.walk() if r.is_file)
+    if progress_manager:
+        resources = list(resources)
 
     use_threading = processes >= 0
     runner = partial(
@@ -1280,6 +1282,8 @@ def scan_codebase(
 
         if progress_manager:
             scans = progress_manager(scans)
+            # times two because of #3344
+            scans.length = len(resources)*2
             # hack to avoid using a context manager
             if hasattr(scans, '__enter__'):
                 scans.__enter__()
